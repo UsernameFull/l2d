@@ -1,0 +1,168 @@
+{
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "lafei_4.moc3",
+    "Textures": [
+      "textures/texture_00.png"
+    ],
+    "Physics": "lafei_4.physics3.json",
+    "Motions": {
+      "Idle": [
+        {
+          "Name": "idle",
+          "File": "motions/idle.motion3.json"
+        },
+        {
+          "File": "motions/main_1.motion3.json"
+        },
+        {
+          "File": "motions/main_2.motion3.json"
+        },
+        {
+          "File": "motions/main_3.motion3.json"
+        }
+      ],
+      "Start": [
+        {
+          "Name": "login",
+          "File": "motions/login.motion3.json"
+        }
+      ],
+      "TapBody": [
+        {
+          "Name": "touch_body",
+          "File": "motions/touch_body.motion3.json",
+          "Text": "touch_body",
+          "TextDuration": 1000
+        }
+      ],
+      "TapHead": [
+        {
+          "Name": "touch_head",
+          "File": "motions/touch_head.motion3.json"
+        }
+      ],
+      "TapSpecial": [
+        {
+          "Name": "touch_special",
+          "File": "motions/touch_special.motion3.json"
+        }
+      ],
+      "Tick": [
+        {
+          "File": "motions/mail.motion3.json"
+        }
+      ],
+      "Leave": [
+        {
+          "File": "motions/complete.motion3.json"
+        }
+      ],
+      "Shake": [
+        {
+          "Name": "shake",
+          "File": "motions/touch_head.motion3.json",
+          "Text": "do not shake",
+          "TextDuration": 1000
+        }
+      ]
+    }
+  },
+  "Controllers": {
+    "ParamHit": {
+      "Enabled": true
+    },
+    "ParamLoop": {},
+    "KeyTrigger": {
+      "Enabled": true
+    },
+    "EyeBlink": {
+      "MinInterval": 500,
+      "MaxInterval": 6000,
+      "Items": [
+        {
+          "Id": "ParamEyeLOpen",
+          "Min": 0.0,
+          "Max": 1.0,
+          "BlendMode": 2,
+          "Input": 0
+        },
+        {
+          "Id": "ParamEyeROpen",
+          "Min": 0.0,
+          "Max": 1.0,
+          "BlendMode": 2,
+          "Input": 0
+        }
+      ],
+      "Enabled": true
+    },
+    "LipSync": {
+      "Gain": 5.0,
+      "Items": [
+        {
+          "Id": "ParamMouthOpenY",
+          "Min": 0.0,
+          "Max": 1.0,
+          "Input": 0
+        }
+      ],
+      "Enabled": true
+    },
+    "MouseTracking": {
+      "SmoothTime": 0.15,
+      "Enabled": true
+    },
+    "AutoBreath": {
+      "Enabled": true
+    },
+    "ExtraMotion": {
+      "Enabled": true
+    },
+    "Accelerometer": {
+      "Enabled": true
+    },
+    "Microphone": {
+      "Enabled": true
+    },
+    "Transform": {},
+    "FaceTracking": {
+      "Enabled": true
+    },
+    "ParamValue": {
+      "Enabled": true
+    },
+    "PartOpacity": {
+      "Enabled": true
+    },
+    "ArtmeshOpacity": {
+      "Enabled": true
+    },
+    "ArtmeshColor": {
+      "Enabled": true
+    },
+    "ArtmeshCulling": {
+      "DefaultMode": 0,
+      "Enabled": true
+    },
+    "IntimacySystem": {
+      "Enabled": true
+    }
+  },
+  "HitAreas": [
+    {
+      "Name": "Body",
+      "Id": "TouchBody"
+    },
+    {
+      "Name": "Head",
+      "Id": "TouchHead"
+    },
+    {
+      "Name": "Special",
+      "Id": "TouchSpecial",
+      "Order": 1
+    }
+  ],
+  "Options": {}
+}
