@@ -109,20 +109,20 @@ class Viewer {
 
 
 
-            // if (this.isClick) {
-            //     if (this.isHit('TouchHead', event.offsetX, event.offsetY)) {
-            //         this.startAnimation("touch_head", "base");
-            //     } 
-            //     // else if (this.isHit('TouchSpecial', event.offsetX, event.offsetY)) {
-            //     //     this.startAnimation("touch_special", "base");
-            //     // } 
-            //     else {
-            //         const bodyMotions = ["touch_body", "main_1", "main_2", "main_3"];
-            //         let currentMotion = bodyMotions[Math.floor(Math.random()*bodyMotions.length)];
-            //         this.startAnimation(currentMotion, "base");
-            //         // console.log("12121212121212121")
-            //     }
-            // }
+            if (this.isClick) {
+                if (this.isHit('TouchHead', event.offsetX, event.offsetY)) {
+                    this.startAnimation("touch_head", "base");
+                } 
+                // else if (this.isHit('TouchSpecial', event.offsetX, event.offsetY)) {
+                //     this.startAnimation("touch_special", "base");
+                // } 
+                else {
+                    const bodyMotions = ["touch_body", "main_1", "main_2", "main_3"];
+                    let currentMotion = bodyMotions[Math.floor(Math.random()*bodyMotions.length)];
+                    this.startAnimation(currentMotion, "base");
+                    // console.log("12121212121212121")
+                }
+            }
 
             this.isClick = false;
             this.model.inDrag = false;

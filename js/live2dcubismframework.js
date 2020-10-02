@@ -139,7 +139,7 @@ var LIVE2DCUBISMFRAMEWORK;
                 return null;
             }
             var animation = new Animation(motion3Json);
-            console.log(animation)
+            // console.log(animation)
             return (animation.isValid)
                 ? animation
                 : null;
