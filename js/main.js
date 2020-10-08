@@ -16,33 +16,38 @@ class Viewer {
         } 
         // this.l2d = new L2D(config.basePath);
         this.l2d = new L2D("./js/Resources");
-        this.canvas = $(".Canvas");
-
+        // this.canvas = $("#L2dCanvas");
+        // this.canvas = $(".Canvas");
+        console.log(this.canvas);
+        this.canvas = document.getElementById("L2dCanvas");
+        console.log(this.canvas);
         // this.l2d.load(role, this);      
-        this.l2d.load("lafei_4", this);      
+        this.l2d.load("lafei_4", this);
         this.app = new PIXI.Application({
             width: width,
             height: height,
             transparent: true,
             antialias: true // 抗锯齿
         });
-        this.canvas.html(this.app.view);
+        // this.canvas.html(this.app.view);
+        this.canvas.appendChild(this.app.view);
+        console.log(this.app.view);
         
-        this.canvas[0].style.position = 'fixed'
+        this.canvas.style.position = 'fixed'
         if(bg){
-            this.canvas[0].style.background = `url("${bg}")`
-            this.canvas[0].style.backgroundSize = 'cover'
+            this.canvas.style.background = `url("${bg}")`
+            this.canvas.style.backgroundSize = 'cover'
         }
         if(opa)
-            this.canvas[0].style.opacity = opa
+            this.canvas.style.opacity = opa
         if(top)
-            this.canvas[0].style.top = top
+            this.canvas.style.top = top
         if(right)
-            this.canvas[0].style.right = right
+            this.canvas.style.right = right
         if(bottom)
-            this.canvas[0].style.bottom = bottom
+            this.canvas.style.bottom = bottom
         if(left)
-            this.canvas[0].style.left = left
+            this.canvas.style.left = left
 
         this.app.ticker.add((deltaTime) => {
             if (!this.model) {
@@ -72,12 +77,11 @@ class Viewer {
         this.app.view.addEventListener('mousedown', (event) => {
             this.isClick = true;
         });
+        
         this.app.view.addEventListener('mousemove', (event) => {
-            if (this.isClick) {
-                this.isClick = false;
-                if (this.model) {
+            this.isClick = false;
+            if (this.model) {
                     this.model.inDrag = true;
-                }
             }
 
             if (this.model) {
@@ -92,38 +96,32 @@ class Viewer {
                 return;
             }
             this.isClick = true;
-
-            // 
-            
-
-            if (this.isClick) {
-                if (this.isHit("TouchBody", event.offsetX, event.offsetY)) {
-                    this.startAnimation("lafei4_touch_body", "base")
-                } else if (this.isHit("TouchHead", event.offsetX, event.offsetY)) {
-                    this.startAnimation("lafei4_touch_head", "base")
-                } else if (this.isHit("TouchSpecial", event.offsetX, event.offsetY)) {
-                    this.startAnimation("lafei4_touch_special", "base")
-                } 
-            }
-            console.log(this.model.motions)
-
-
-
-            if (this.isClick) {
-                if (this.isHit('TouchHead', event.offsetX, event.offsetY)) {
-                    this.startAnimation("touch_head", "base");
-                } 
-                // else if (this.isHit('TouchSpecial', event.offsetX, event.offsetY)) {
-                //     this.startAnimation("touch_special", "base");
-                // } 
-                else {
-                    const bodyMotions = ["touch_body", "main_1", "main_2", "main_3"];
-                    let currentMotion = bodyMotions[Math.floor(Math.random()*bodyMotions.length)];
-                    this.startAnimation(currentMotion, "base");
-                    // console.log("12121212121212121")
+            // if (this.isClick) {
+            //     if (this.isHit("TouchBody", event.offsetX, event.offsetY)) {
+            //         this.startAnimation("lafei4_touch_body", "base")
+            //     } else if (this.isHit("TouchHead", event.offsetX, event.offsetY)) {
+            //         this.startAnimation("lafei4_touch_head", "base")
+            //     } else if (this.isHit("TouchSpecial", event.offsetX, event.offsetY)) {
+            //         this.startAnimation("lafei4_touch_special", "base")
+            //     } 
+            // }
+            let templatestr = ''
+            let i = 0
+            console.log(this.l2d.TapAreas);
+            if (this.l2d.TapAreas){
+                for(let item of this.l2d.TapAreas){
+                    console.log(item)
+                    templatestr=templatestr+(i==0?"if":"else if")
+                    if (item[0]){
+                        templatestr=templatestr+
+                    `(this.isHit("`+item[0]+`", event.offsetX, event.offsetY)) {
+                        this.startAnimation("`+item[1][0]+`", "base")
+                    }`
+                    }
+                    i++
                 }
             }
-
+            eval(templatestr);
             this.isClick = false;
             this.model.inDrag = false;
         });
@@ -132,7 +130,7 @@ class Viewer {
     //每次载入模型时触发
     changeCanvas (model) {
         this.app.stage.removeChildren();
-
+        
         model.motions.forEach((value, key) => {
             if (key != "effect") {
                 let btn = document.createElement("button");
@@ -147,19 +145,26 @@ class Viewer {
 
         this.model = model;
         this.model.update = this.onUpdate; // HACK: use hacked update fn for drag support
-        // console.log(this.model);
         this.model.animator.addLayer("base", LIVE2DCUBISMFRAMEWORK.BuiltinAnimationBlenders.OVERRIDE, 1);
 
         this.app.stage.addChild(this.model);
         this.app.stage.addChild(this.model.masks);
+        //如果有载入动画，触发载入动画
+        if(this.l2d.TriggerMotions.get('Start')){
+            this.startAnimation(this.l2d.TriggerMotions.get('Start')[0], "base")
+        }
 
         window.onresize();
     }
-    //每一次模型的细小变化都会触发该函数
+    //
     onUpdate (delta) {
         let deltaTime = 0.016 * delta;
         if (!this.animator.isPlaying) {
             let m = this.motions.get("idle");
+            // console.log(this.motions);
+            //待机时的动作
+            // let m = this.l2d.TriggerMotions.get('idle')[0]
+
             this.animator.getLayer("base").play(m);
         }
         this._animator.updateAndEvaluate(deltaTime);
@@ -210,22 +215,18 @@ class Viewer {
         if (!this.model) {
             return;
         }
-        console.log("Animation:", motionId, layerId)
         let m = this.model.motions.get(motionId);
-        // console.log("motionId:", m)
         
         if (!m) {
             return;
         }
 
         let l = this.model.animator.getLayer(layerId);
-        // console.log("layerId:", l)
         if (!l) {
             return;
         }
 
         l.play(m);
-        // console.log("player")
     }
 
     isHit (id, posX, posY) {
@@ -236,7 +237,6 @@ class Viewer {
         this.model._meshes.forEach((e)=>{
             _meshesname.push(e.name)
         })
-        console.log(_meshesname)
         let m = this.model.getModelMeshById(id);
         if (!m) {
             return false;

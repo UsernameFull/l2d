@@ -3,7 +3,7 @@
   "Meta": {
     "Duration": 6.0,
     "Fps": 30.0,
-    "Loop": true,
+    "Loop": false,
     "CurveCount": 170,
     "TotalSegmentCount": 553,
     "TotalPointCount": 677,

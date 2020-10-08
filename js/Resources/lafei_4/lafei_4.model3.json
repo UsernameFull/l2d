@@ -13,12 +13,15 @@
           "File": "motions/idle.motion3.json"
         },
         {
+          "Name": "main_1",
           "File": "motions/main_1.motion3.json"
         },
         {
+          "Name": "mian_2",
           "File": "motions/main_2.motion3.json"
         },
         {
+          "Name": "main_3",
           "File": "motions/main_3.motion3.json"
         }
       ],
@@ -152,16 +155,19 @@
   "HitAreas": [
     {
       "Name": "Body",
-      "Id": "TouchBody"
+      "Id": "TouchBody",
+      "Motion": "TapBody"
     },
     {
       "Name": "Head",
-      "Id": "TouchHead"
+      "Id": "TouchHead",
+      "Motion": "TapHead:touch_head"
     },
     {
       "Name": "Special",
       "Id": "TouchSpecial",
-      "Order": 1
+      "Order": 1,
+      "Motion": "TapSpecial:touch_special"
     }
   ],
   "Options": {}

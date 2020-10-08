@@ -11,6 +11,9 @@ class L2D {
         this.models = {};
         //建立一个触发事件（触摸，加载等）和动作的对应表
         this.TriggerMotions = new Map();
+        //建立一个触发区域和对应动作的对应表
+        this.TapAreas = new Map();
+
     }
     
     setPhysics3Json (value) {
@@ -40,7 +43,7 @@ class L2D {
 
             this.loader.load((loader, resources) => {
                 let model3Obj = resources[name+'_model'].data;
-                console.log(model3Obj)
+                // console.log(model3Obj)
                 if (typeof(model3Obj['FileReferences']['Moc']) !== "undefined") {
                     loader.add(name+'_moc', modelDir+model3Obj['FileReferences']['Moc'], { xhrType: PIXI.loaders.Resource.XHR_RESPONSE_TYPE.BUFFER });
                 }
@@ -84,6 +87,30 @@ class L2D {
                 if (typeof(model3Obj['Groups']) !== 'undefined') {
                     groups = LIVE2DCUBISMFRAMEWORK.Groups.fromModel3Json(model3Obj);
                 }
+                //从HitAreas配置中拿到点击区域和动作的对应关系，输入格式为
+                /*
+                // "HitAreas": [
+                //     {
+                //       "Id": "TouchBody",
+                //       "Motion": "TapBody"
+                //     },
+                //    {
+                //       "Id": "TouchHead",
+                //       "Motion": "TapHead:touch_head,main"
+                //     }
+                // ]
+                */
+                if (typeof(model3Obj['HitAreas']) !== 'undefined'){
+                    let tempHitAreas = model3Obj['HitAreas'];
+                    tempHitAreas.forEach((e)=>{
+                        let [MotionsGroup,MotionsItems] = e.Motion.split(':')
+                        if(MotionsItems){
+                            _.TapAreas.set(e.Id,MotionsItems.split(','))
+                        }else{
+                            _.TapAreas.set(e.Id,_.TriggerMotions.get(MotionsGroup))
+                        }
+                    })
+                }
                 loader.load((l, r) => {
                     let moc = null;
                     if (typeof(r[name+'_moc']) !== "undefined") {
@@ -102,7 +129,6 @@ class L2D {
                     //这里只是把加载了动作数据和动作名，没有把动作和触发事件联系起来
                     let motions = new Map();
                     motionNames.forEach((e) => {
-                        // let n = element.split(name+'_').pop();
                         motions.set(e, LIVE2DCUBISMFRAMEWORK.Animation.fromMotion3Json(r[e].data));
                     });
     
