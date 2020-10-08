@@ -34,7 +34,7 @@
 ```
 # 预览
 
-下载index.html用游览器打开即可
+[预览](https://aged-frost-ce9d.tohowtodoit.workers.dev/)
 
 # TODO
 
