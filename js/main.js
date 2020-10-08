@@ -14,10 +14,8 @@ class Viewer {
         if(!mobile){
             if(this.isMobile()) return;
         } 
-        // this.l2d = new L2D(config.basePath);
-        this.l2d = new L2D("./js/Resources");
-        // this.canvas = $("#L2dCanvas");
-        // this.canvas = $(".Canvas");
+        this.l2d = new L2D(config.basePath);
+
         console.log(this.canvas);
         this.canvas = document.getElementById("L2dCanvas");
         console.log(this.canvas);
