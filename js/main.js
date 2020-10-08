@@ -21,8 +21,8 @@ class Viewer {
         console.log(this.canvas);
         this.canvas = document.getElementById("L2dCanvas");
         console.log(this.canvas);
-        // this.l2d.load(role, this);      
-        this.l2d.load("lafei_4", this);
+        this.l2d.load(role, this);      
+        // this.l2d.load("lafei_4", this);
         this.app = new PIXI.Application({
             width: width,
             height: height,
