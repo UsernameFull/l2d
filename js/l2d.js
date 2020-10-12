@@ -43,7 +43,6 @@ class L2D {
 
             this.loader.load((loader, resources) => {
                 let model3Obj = resources[name+'_model'].data;
-                // console.log(model3Obj)
                 if (typeof(model3Obj['FileReferences']['Moc']) !== "undefined") {
                     loader.add(name+'_moc', modelDir+model3Obj['FileReferences']['Moc'], { xhrType: PIXI.loaders.Resource.XHR_RESPONSE_TYPE.BUFFER });
                 }
@@ -64,19 +63,19 @@ class L2D {
                         model3Obj['FileReferences']['Motions'][group].forEach((element) => {
                             
                             let motionName = element['File'].split('/').pop().split('.').shift();
-                            if (!motionNames.includes(name+'_'+motionName)){
-                                loader.add(name+'_'+motionName, modelDir+element['File'], { xhrType: PIXI.loaders.Resource.XHR_RESPONSE_TYPE.JSON });
-                                motionNames.push(name+'_'+motionName);
+                            if (!motionNames.includes(motionName)){
+                                loader.add(motionName, modelDir+element['File'], { xhrType: PIXI.loaders.Resource.XHR_RESPONSE_TYPE.JSON });
+                                motionNames.push(motionName);
                             } else {
-                                var n = name+'_'+motionName+String(Date.now());
+                                var n = motionName+String(Date.now());
                                 loader.add(n, modelDir+element['File'], { xhrType: PIXI.loaders.Resource.XHR_RESPONSE_TYPE.JSON });
-                                motionNames.push(name+'_'+motionName);
+                                motionNames.push(motionName);
                             }
-                            groupmotionNames.push(name+'_'+motionName)
+                            groupmotionNames.push(motionName)
                         });
                         _.TriggerMotions.set(group,groupmotionNames)
                         
-                    }console.log(motionNames)
+                    }
                 }
 
                 let groups = null;
@@ -133,9 +132,9 @@ class L2D {
                     });
     
                     let model = null;
-                    // console.log(moc)
+
                     let coreModel = Live2DCubismCore.Model.fromMoc(moc);
-                    // console.log(coreModel)
+
                     if (coreModel == null) {
                         return;
                     }
@@ -144,7 +143,6 @@ class L2D {
                         .setTarget(coreModel)
                         .setTimeScale(this.timeScale)
                         .build();
-                    // console.log(coreModel)
                     let physicsRig = this.physicsRigBuilder
                         .setTarget(coreModel)
                         .setTimeScale(this.timeScale)

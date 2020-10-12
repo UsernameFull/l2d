@@ -10,27 +10,23 @@ class Viewer {
         let bg = config.background
         let opa = config.opacity
         let mobile = config.mobile
+        let _ = this
 
         if(!mobile){
             if(this.isMobile()) return;
         } 
         this.l2d = new L2D(config.basePath);
-
-        console.log(this.canvas);
         this.canvas = document.getElementById("L2dCanvas");
-        console.log(this.canvas);
         this.l2d.load(role, this);      
-        // this.l2d.load("lafei_4", this);
+
         this.app = new PIXI.Application({
             width: width,
             height: height,
             transparent: true,
             antialias: true // 抗锯齿
         });
-        // this.canvas.html(this.app.view);
+
         this.canvas.appendChild(this.app.view);
-        console.log(this.app.view);
-        
         this.canvas.style.position = 'fixed'
         if(bg){
             this.canvas.style.background = `url("${bg}")`
@@ -52,7 +48,7 @@ class Viewer {
                 return;
             }
 
-            this.model.update(deltaTime);
+            this.model.update(_,deltaTime);
             this.model.masks.update(this.app.renderer);
         });
         //窗口大小改变时重绘
@@ -94,15 +90,6 @@ class Viewer {
                 return;
             }
             this.isClick = true;
-            // if (this.isClick) {
-            //     if (this.isHit("TouchBody", event.offsetX, event.offsetY)) {
-            //         this.startAnimation("lafei4_touch_body", "base")
-            //     } else if (this.isHit("TouchHead", event.offsetX, event.offsetY)) {
-            //         this.startAnimation("lafei4_touch_head", "base")
-            //     } else if (this.isHit("TouchSpecial", event.offsetX, event.offsetY)) {
-            //         this.startAnimation("lafei4_touch_special", "base")
-            //     } 
-            // }
             let templatestr = ''
             let i = 0
             console.log(this.l2d.TapAreas);
@@ -124,6 +111,7 @@ class Viewer {
             this.model.inDrag = false;
         });
         console.log("Init finished.")
+        // console.log(this);
     }
     //每次载入模型时触发
     changeCanvas (model) {
@@ -155,13 +143,15 @@ class Viewer {
         window.onresize();
     }
     //
-    onUpdate (delta) {
+    onUpdate (_,delta) {
         let deltaTime = 0.016 * delta;
         if (!this.animator.isPlaying) {
             let m = this.motions.get("idle");
+            // console.log(_);
             // console.log(this.motions);
             //待机时的动作
-            // let m = this.l2d.TriggerMotions.get('idle')[0]
+            console.log( _.l2d.TriggerMotions.get('Idle')[0]);
+            // let m = _.l2d.TriggerMotions.get('Idle')[0]
 
             this.animator.getLayer("base").play(m);
         }
