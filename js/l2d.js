@@ -39,7 +39,7 @@ class L2D {
             //if (!modelNames.includes(name+'_model')){
                 this.loader.add(name+'_model', modelDir+modelPath, { xhrType: PIXI.loaders.Resource.XHR_RESPONSE_TYPE.JSON });
                 modelNames.push(name+'_model');
-            //} 
+            //}
 
             this.loader.load((loader, resources) => {
                 let model3Obj = resources[name+'_model'].data;
@@ -101,6 +101,10 @@ class L2D {
                 */
                 if (typeof(model3Obj['HitAreas']) !== 'undefined'){
                     let tempHitAreas = model3Obj['HitAreas'];
+                    //按Order排序，Order值越大，越靠前，没有Order的设置为默认值0
+                    tempHitAreas.forEach((e)=>{if(!e.Order){e.Order = 0}})
+                    tempHitAreas.sort(function(a, b){return b.Order - a.Order}); 
+                    console.log(tempHitAreas);
                     tempHitAreas.forEach((e)=>{
                         let [MotionsGroup,MotionsItems] = e.Motion.split(':')
                         if(MotionsItems){

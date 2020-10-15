@@ -111,7 +111,6 @@ class Viewer {
             this.model.inDrag = false;
         });
         console.log("Init finished.")
-        // console.log(this);
     }
     //每次载入模型时触发
     changeCanvas (model) {
@@ -147,12 +146,7 @@ class Viewer {
         let deltaTime = 0.016 * delta;
         if (!this.animator.isPlaying) {
             let m = this.motions.get("idle");
-            // console.log(_);
-            // console.log(this.motions);
-            //待机时的动作
             console.log( _.l2d.TriggerMotions.get('Idle')[0]);
-            // let m = _.l2d.TriggerMotions.get('Idle')[0]
-
             this.animator.getLayer("base").play(m);
         }
         this._animator.updateAndEvaluate(deltaTime);
